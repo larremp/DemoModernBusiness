@@ -1,5 +1,21 @@
 site_name: Orchard Core Documentation
-theme: readthedocs
+theme:
+  name: 'material'
+  logo: 'images/orchard-logo.png'
+  font:
+    text: 'Open Sans'
+  palette:
+    primary: 'green'
+    accent: 'light blue'
+    
+extra:
+  social:
+    - type: 'globe'
+      link: 'http://orchardproject.net'
+    - type: 'github-alt'
+      link: 'https://github.com/OrchardCMS/OrchardCore'
+    - type: 'twitter'
+      link: 'https://twitter.com/OrchardCMS'
 
 # Repository
 repo_name: OrchardCMS/OrchardCore
