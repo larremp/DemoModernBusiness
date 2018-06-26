@@ -7,7 +7,7 @@
 @import "bootstrap-switch.scss";
 @import "codemirror.scss";
 
-$top-nav-height: 59px;
+$top-nav-height: 48px;
 $footer-height: 40px;
 $left-navigation-width: 260px;
 $left-navigation-width-when-compact: 60px;
@@ -57,11 +57,16 @@ body {
 // -----------------------------
 
 .ta-navbar-top {
-    @extend .navbar, .navbar-expand-md, .navbar-light, .bg-light, .fixed-top;
+    @extend .navbar, .navbar-expand-md, .navbar-light, .bg-white, .fixed-top;
     min-height: $top-nav-height;
     border-bottom: $border-content;
     z-index: 8;
-    padding-left: 0px;
+    padding: 0px;
+    font-size: 14px;
+    
+    .btn{
+        font-size: 14px;
+    }
 }
 
 
@@ -138,7 +143,7 @@ body {
 
     #left-nav {
         position: relative;
-        height: calc(100% - #{$top-nav-height * 2});
+        height: calc(100% - 99px);
         //border-top: 1px solid $gray-300;
     }
     // Remove padding/margin from all uls
@@ -195,6 +200,7 @@ body {
 
     #left-nav ul.menu-admin {
         margin-bottom: 100px;
+        font-size: .88rem;
     }
 
     .chevron {
@@ -220,13 +226,18 @@ body {
         > span.icon {
             padding-left: 20px;
         }
+
+        [aria-expanded="true"] {
+            border-left: 3px solid rgb(200, 200, 200);
+        }
     }
 
-    li label,
-    li a,
-    li a:hover,
-    li a:active,
-    li a:visited {
+    #left-nav ul.menu-admin > li.active > label[aria-expanded="true"] {
+        border-left: 3px solid rgb(200, 200, 200);
+        position: relative;
+    }
+
+    li label, li a, li a:hover, li a:active, li a:visited {
         color: $gray-700;
         text-decoration: none;
         padding-left: $link-padding-left;
@@ -241,15 +252,21 @@ body {
     }
     // Hovering the navigation items
     li a:hover, li label:hover {
-        background-color: $gray-700;
-        color: $gray-100;
+        background-color: #e8e8e8;
+        color: #212121 !important;
     }
     // Current page
     li.active > a {
-        background-color: $gray-600;
-        border-left: 4px solid $gray-800;
-        color: $gray-100 !important;
-        padding-left: (2 * $link-padding-left + 2) !important;
+        background-color: #D1D1D1;
+        border-left: 3px solid rgb(0, 120, 212);
+        color: #212121 !important;
+        padding-left: (2 * $link-padding-left + 8) !important;
+        font-weight: 600;
+    }
+
+    li.active > a:hover {
+        background-color: #e8e8e8;
+        color: #212121 !important;
     }
 
     li.has-items.active > a {
@@ -257,20 +274,21 @@ body {
     }
 
     li.active > label {
-        background-color: #b4bdc4;
-        color: $gray-100 !important;
+        background-color: #EFEFEF;
+        color: #212121 !important;
     }
     // Second level colors and indent
     li ul > li > a,
     li ul > li > label {
-        background-color: $gray-200;
+        background-color: #EFEFEF;
         color: $gray-700 !important;
         padding-left: (2 * $link-padding-left) + 6 !important;
+        border-left: 3px solid rgb(200, 200, 200);
     }
 
     li ul > li > a:hover,
     li ul > li > label:hover {
-        color: $gray-100 !important;
+        color: #212121 !important;
     }
     // third level indent
     li ul > li ul > li > a {
@@ -281,11 +299,8 @@ body {
         padding-left: (3 * $link-padding-left - 4) !important;
     }
 }
-
-
 // Layout 4 : ta-left-sidebar when compacted
 // -----------------------------------------
-
 .left-sidebar-compact #ta-left-sidebar {
     width: $left-navigation-width-when-compact;
 
@@ -354,13 +369,14 @@ html:not(.fontawesome-i2svg-complete) #left-nav ul.menu-admin > li > label {
     display: block;
     width: $left-navigation-width-when-compact;
     height: 40px;
-    padding: 8px 0px 10px 12px;
+    padding: 8px 0px 12px 15px;
     border: none;
     background-color: transparent;
     font-size: 1.4rem;
     color: $gray-700;
     cursor: pointer;
     font-size: 16px;
+    float: right;
 
     &:focus {
         outline: none;
@@ -419,7 +435,6 @@ html:not(.fontawesome-i2svg-complete) #left-nav ul.menu-admin > li > label {
     color: $pre-color;
     @include border-radius($border-radius);
 }
-
 // When the validation message in inside the label, add a separator
 label .field-validation-error::before {
     content: "- ";
@@ -436,7 +451,6 @@ label .field-validation-error::before {
 select[multiple] {
     min-height: 300px;
 }
-
 // Toolbar
 // ------------------------------
 .admin-toolbar {

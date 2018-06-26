@@ -167,7 +167,7 @@ html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: transparent; }
 
 @-ms-viewport {
   width: device-width; }
@@ -4480,16 +4480,14 @@ button.bg-danger:hover,
 button.bg-danger:focus {
   background-color: #bd2130 !important; }
 
-.bg-light, .ta-navbar-top, #ta-left-sidebar, .admin-toolbar {
+.bg-light, #ta-left-sidebar, .admin-toolbar {
   background-color: #f8f9fa !important; }
 
-a.bg-light:hover, a.ta-navbar-top:hover, a#ta-left-sidebar:hover, a.admin-toolbar:hover, a.bg-light:focus, a.ta-navbar-top:focus, a#ta-left-sidebar:focus, a.admin-toolbar:focus,
+a.bg-light:hover, a#ta-left-sidebar:hover, a.admin-toolbar:hover, a.bg-light:focus, a#ta-left-sidebar:focus, a.admin-toolbar:focus,
 button.bg-light:hover,
-button.ta-navbar-top:hover,
 button#ta-left-sidebar:hover,
 button.admin-toolbar:hover,
 button.bg-light:focus,
-button.ta-navbar-top:focus,
 button#ta-left-sidebar:focus,
 button.admin-toolbar:focus {
   background-color: #dae0e5 !important; }
@@ -4502,7 +4500,7 @@ button.bg-dark:hover,
 button.bg-dark:focus {
   background-color: #1d2124 !important; }
 
-.bg-white {
+.bg-white, .ta-navbar-top {
   background-color: #fff !important; }
 
 .bg-transparent {
@@ -6986,10 +6984,13 @@ body {
   font-size: .7rem; }
 
 .ta-navbar-top {
-  min-height: 59px;
+  min-height: 48px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   z-index: 8;
-  padding-left: 0px; }
+  padding: 0px;
+  font-size: 14px; }
+  .ta-navbar-top .btn, .ta-navbar-top .button {
+    font-size: 14px; }
 
 .ta-navbar-brand {
   overflow: hidden;
@@ -7017,7 +7018,7 @@ body {
 .ta-content {
   padding: 15px;
   margin-left: 260px;
-  margin-top: 59px;
+  margin-top: 48px;
   margin-bottom: 40px;
   transition: margin-left 0.2s ease-in-out; }
 
@@ -7033,7 +7034,7 @@ body {
   height: 100%;
   z-index: 7;
   position: fixed;
-  top: 59px;
+  top: 48px;
   bottom: 0;
   left: 0px;
   width: 260px;
@@ -7042,7 +7043,7 @@ body {
   transition: left 0.2s ease-in-out, width 0.2s ease-in-out; }
   #ta-left-sidebar #left-nav {
     position: relative;
-    height: calc(100% - 118px); }
+    height: calc(100% - 99px); }
   #ta-left-sidebar ul {
     margin: 0;
     padding: 0; }
@@ -7073,7 +7074,8 @@ body {
       #ta-left-sidebar #left-nav ul li label {
         cursor: pointer; }
   #ta-left-sidebar #left-nav ul.menu-admin {
-    margin-bottom: 100px; }
+    margin-bottom: 100px;
+    font-size: .88rem; }
   #ta-left-sidebar .chevron {
     position: absolute;
     top: 33%;
@@ -7087,11 +7089,12 @@ body {
     padding-left: 0px !important; }
     #ta-left-sidebar #left-nav ul.menu-admin > li > label > span.icon {
       padding-left: 20px; }
-  #ta-left-sidebar li label,
-  #ta-left-sidebar li a,
-  #ta-left-sidebar li a:hover,
-  #ta-left-sidebar li a:active,
-  #ta-left-sidebar li a:visited {
+    #ta-left-sidebar #left-nav ul.menu-admin > li > label [aria-expanded="true"] {
+      border-left: 3px solid #c8c8c8; }
+  #ta-left-sidebar #left-nav ul.menu-admin > li.active > label[aria-expanded="true"] {
+    border-left: 3px solid #c8c8c8;
+    position: relative; }
+  #ta-left-sidebar li label, #ta-left-sidebar li a, #ta-left-sidebar li a:hover, #ta-left-sidebar li a:active, #ta-left-sidebar li a:visited {
     color: #495057;
     text-decoration: none;
     padding-left: 16px; }
@@ -7102,26 +7105,31 @@ body {
   #ta-left-sidebar li.has-items a:visited {
     padding-left: 12px; }
   #ta-left-sidebar li a:hover, #ta-left-sidebar li label:hover {
-    background-color: #495057;
-    color: #f8f9fa; }
+    background-color: #e8e8e8;
+    color: #212121 !important; }
   #ta-left-sidebar li.active > a {
-    background-color: #6c757d;
-    border-left: 4px solid #343a40;
-    color: #f8f9fa !important;
-    padding-left: 34px !important; }
+    background-color: #D1D1D1;
+    border-left: 3px solid #0078d4;
+    color: #212121 !important;
+    padding-left: 40px !important;
+    font-weight: 600; }
+  #ta-left-sidebar li.active > a:hover {
+    background-color: #e8e8e8;
+    color: #212121 !important; }
   #ta-left-sidebar li.has-items.active > a {
     padding-left: 34px !important; }
   #ta-left-sidebar li.active > label {
-    background-color: #b4bdc4;
-    color: #f8f9fa !important; }
+    background-color: #EFEFEF;
+    color: #212121 !important; }
   #ta-left-sidebar li ul > li > a,
   #ta-left-sidebar li ul > li > label {
-    background-color: #e9ecef;
+    background-color: #EFEFEF;
     color: #495057 !important;
-    padding-left: 38px !important; }
+    padding-left: 38px !important;
+    border-left: 3px solid #c8c8c8; }
   #ta-left-sidebar li ul > li > a:hover,
   #ta-left-sidebar li ul > li > label:hover {
-    color: #f8f9fa !important; }
+    color: #212121 !important; }
   #ta-left-sidebar li ul > li ul > li > a {
     padding-left: 48px !important; }
   #ta-left-sidebar li ul > li ul > .active > a {
@@ -7171,13 +7179,14 @@ html:not(.fontawesome-i2svg-complete) #left-nav ul.menu-admin > li > label {
   display: block;
   width: 60px;
   height: 40px;
-  padding: 8px 0px 10px 12px;
+  padding: 8px 0px 12px 15px;
   border: none;
   background-color: transparent;
   font-size: 1.4rem;
   color: #495057;
   cursor: pointer;
-  font-size: 16px; }
+  font-size: 16px;
+  float: right; }
   .leftbar-compactor:focus {
     outline: none; }
   .leftbar-compactor:hover {
