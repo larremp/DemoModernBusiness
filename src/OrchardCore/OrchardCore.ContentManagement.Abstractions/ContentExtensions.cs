@@ -6,6 +6,8 @@ namespace OrchardCore.ContentManagement
 {
     public static class ContentExtensions
     {
+        public const string WeldedPartSettingsName = "@WeldedPartSettings";
+
         /// <summary>
         /// These settings instruct merge to replace current value, even for null values.
         /// </summary>
@@ -81,6 +83,37 @@ namespace OrchardCore.ContentManagement
 
                 contentElement.Data[name] = element.Data;
             }
+
+            return contentElement;
+        }
+
+        /// <summary>
+        /// Welds a new part to the content item. If a part of the same type is already welded nothing is done.
+        /// This part can be not defined in Content Definitions.
+        /// </summary>
+        /// <typeparam name="TPart">The type of the part to be welded.</typeparam>
+        public static ContentElement Weld<TElement>(this ContentElement contentElement, object settings = null) where TElement : ContentElement, new()
+        {
+            var elementName = typeof(TElement).Name;
+            
+            var elementData = contentElement.Data[elementName] as JObject;
+
+            if (elementData == null)
+            {
+                // build and welded the part
+                var part = new TElement();
+                contentElement.Weld(elementName, part);
+            }
+
+            JToken result;
+            if (!contentElement.Data.TryGetValue(WeldedPartSettingsName, out result))
+            {
+                contentElement.Data[WeldedPartSettingsName] = result = new JObject();
+            }
+
+            var weldedPartSettings = (JObject)result;
+
+            weldedPartSettings[elementName] = settings == null ? new JObject() : JObject.FromObject(settings, ContentBuilderSettings.IgnoreDefaultValuesSerializer);
 
             return contentElement;
         }
