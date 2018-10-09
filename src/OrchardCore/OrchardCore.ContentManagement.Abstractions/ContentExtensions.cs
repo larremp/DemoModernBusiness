@@ -12,7 +12,7 @@ namespace OrchardCore.ContentManagement
         /// These settings instruct merge to replace current value, even for null values.
         /// </summary>
         private static readonly JsonMergeSettings JsonMergeSettings = new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace, MergeNullValueHandling = MergeNullValueHandling.Merge };
-        
+
         /// <summary>
         /// Gets a content element by its name.
         /// </summary>
@@ -22,6 +22,15 @@ namespace OrchardCore.ContentManagement
         public static TElement Get<TElement>(this ContentElement contentElement, string name) where TElement : ContentElement
         {
             return (TElement)contentElement.Get(typeof(TElement), name);
+        }
+
+        /// <summary>
+        /// Gets whether a content element has a specific element attached.
+        /// </summary>
+        /// <typeparam name="TElement">The expected type of the content element.</typeparam>
+        public static bool Has<TElement>(this ContentElement contentElement) where TElement : ContentElement
+        {
+            return contentElement.Has(typeof(TElement).Name);
         }
 
         /// <summary>
