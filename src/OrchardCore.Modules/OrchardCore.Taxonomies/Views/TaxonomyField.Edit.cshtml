@@ -4,7 +4,7 @@
 
 @{
     var settings = Model.PartFieldDefinition.Settings.ToObject<TaxonomyFieldSettings>();
-    int previousLevel = -1;
+    int previousLevel = 0;
 }
 
 <label>@Model.PartFieldDefinition.DisplayName()</label>
@@ -29,7 +29,12 @@
 
     if (entry.Level == previousLevel + 1)
     {
-        WriteLiteral("<div class=\"pl-3\">");
+        WriteLiteral("<div class=\"pl-3\" >");
+    }
+    
+    for (var e = entry.Level; e < previousLevel; e++)
+    {
+        WriteLiteral("</div>");
     }
 
     <div class="form-check">
@@ -40,10 +45,6 @@
         <input asp-for="@Model.TermEntries[i].ContentItemId" type="hidden" /> 
     </div>
 
-    for (var e = entry.Level; e <= previousLevel; e++)
-    {
-        WriteLiteral("</div>");
-    }
 
     previousLevel = entry.Level;
 }
