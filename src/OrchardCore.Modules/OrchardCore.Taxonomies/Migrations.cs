@@ -1,6 +1,7 @@
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Data.Migration;
+using OrchardCore.Taxonomies.Indexing;
 
 namespace OrchardCore.Taxonomies
 {
@@ -31,10 +32,31 @@ namespace OrchardCore.Taxonomies
         {
             _contentDefinitionManager.AlterTypeDefinition("Taxonomy", menu => menu
                 .WithPart("TaxonomyPart", part => part.WithPosition("3"))
-                //.WithPart("TermsListPart", part => part.WithPosition("4"))
             );
 
             return 2;
+        }
+
+        public int UpdateFrom2()
+        {
+            SchemaBuilder.CreateMapIndexTable(nameof(TaxonomyIndex), table => table
+                .Column<string>("TaxonomyContentItemId", c => c.WithLength(26))
+                .Column<string>("ContentItemId", c => c.WithLength(26))
+                .Column<string>("ContentType", column => column.WithLength(255))
+                .Column<string>("ContentPart", column => column.WithLength(255))
+                .Column<string>("ContentField", column => column.WithLength(255))
+                .Column<string>("TermContentItemId", column => column.WithLength(26))
+            );
+
+            SchemaBuilder.AlterTable(nameof(TaxonomyIndex), table => table
+                .CreateIndex("IDX_TaxonomyIndex_List", "ContentType", "ContentPart", "ContentField")
+            );
+
+            SchemaBuilder.AlterTable(nameof(TaxonomyIndex), table => table
+                .CreateIndex("IDX_TaxonomyIndex_Search", "TermContentItemId")
+            );
+
+            return 3;
         }
     }
 

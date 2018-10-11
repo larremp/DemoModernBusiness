@@ -1,14 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using OrchardCore;
 using OrchardCore.ContentManagement;
+using OrchardCore.Taxonomies.Indexing;
+using YesSql;
 
 public static class TaxonomyOrchardHelperExtensions
 {
     /// <summary>
-    /// Returns a the term from its content item id.
+    /// Returns a the term from its content item id and taxonomy.
     /// </summary>
     /// <param name="taxonomyContentItemId">The taxonomy content item id.</param>
     /// <param name="termContentItemId">The term content item id.</param>
@@ -27,12 +30,12 @@ public static class TaxonomyOrchardHelperExtensions
     }
 
     /// <summary>
-    /// Returns the list of terms including its parents.
+    /// Returns the list of terms including their parents.
     /// </summary>
     /// <param name="taxonomyContentItemId">The taxonomy content item id.</param>
     /// <param name="termContentItemId">The term content item id.</param>
     /// <returns>A list content items.</returns>
-    public static async Task<List<ContentItem>> GetTaxonomyAllTermsAsync(this IOrchardHelper orchardHelper, string taxonomyContentItemId, string termContentItemId)
+    public static async Task<List<ContentItem>> GetInheritedTermsAsync(this IOrchardHelper orchardHelper, string taxonomyContentItemId, string termContentItemId)
     {
         var contentManager = orchardHelper.HttpContext.RequestServices.GetService<IContentManager>();
         var taxonomy = await contentManager.GetAsync(taxonomyContentItemId);
@@ -49,11 +52,24 @@ public static class TaxonomyOrchardHelperExtensions
         return terms;
     }
 
+    /// <summary>
+    /// Query content items.
+    /// </summary>
+    public static async Task<IEnumerable<ContentItem>> QueryCategorizedContentItemsAsync(this IOrchardHelper orchardHelper, Func<IQuery<ContentItem, TaxonomyIndex>, IQuery<ContentItem>> query)
+    {
+        var contentManager = orchardHelper.HttpContext.RequestServices.GetService<IContentManager>();
+        var session = orchardHelper.HttpContext.RequestServices.GetService<ISession>();
+
+        var contentItems = await query(session.Query<ContentItem, TaxonomyIndex>()).ListAsync();
+
+        return await contentManager.LoadAsync(contentItems);
+    }
+
     private static ContentItem FindTerm(JArray termsArray, string termContentItemId)
     {
         foreach(JObject term in termsArray)
         {
-            string contentItemId = term.GetValue("ContentItemId").ToString();
+            var contentItemId = term.GetValue("ContentItemId").ToString();
 
             if (contentItemId == termContentItemId)
             {
@@ -78,7 +94,7 @@ public static class TaxonomyOrchardHelperExtensions
     {
         foreach (JObject term in termsArray)
         {
-            string contentItemId = term.GetValue("ContentItemId").ToString();
+            var contentItemId = term.GetValue("ContentItemId").ToString();
 
             if (contentItemId == termContentItemId)
             {

@@ -49,6 +49,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.AddTagHelpers<StyleTagHelper>();
             });
 
+            builder.Configure(app => app.UseDataAccess());
 
             configure?.Invoke(builder);
 

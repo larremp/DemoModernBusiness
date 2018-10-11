@@ -1,20 +1,21 @@
-using Microsoft.Extensions.DependencyInjection;
 using Fluid;
+using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Handlers;
+using OrchardCore.ContentTypes.Editors;
+using OrchardCore.Data;
 using OrchardCore.Data.Migration;
+using OrchardCore.Indexing;
 using OrchardCore.Modules;
 using OrchardCore.Security.Permissions;
 using OrchardCore.Taxonomies.Drivers;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Handlers;
-using OrchardCore.Taxonomies.Models;
-using OrchardCore.Taxonomies.ViewModels;
-using OrchardCore.ContentTypes.Editors;
-using OrchardCore.Indexing;
-using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Taxonomies.Indexing;
+using OrchardCore.Taxonomies.Models;
+using OrchardCore.Taxonomies.Settings;
+using OrchardCore.Taxonomies.ViewModels;
 
 namespace OrchardCore.Taxonomies
 {
@@ -44,6 +45,8 @@ namespace OrchardCore.Taxonomies
             services.AddScoped<IContentFieldDisplayDriver, TaxonomyFieldDisplayDriver>();
             services.AddScoped<IContentPartFieldDefinitionDisplayDriver, TaxonomyFieldSettingsDriver>();
             services.AddScoped<IContentFieldIndexHandler, TaxonomyFieldIndexHandler>();
+
+            services.AddScoped<IScopedIndexProvider, TaxonomyIndexProvider>();
         }
     }
 }
