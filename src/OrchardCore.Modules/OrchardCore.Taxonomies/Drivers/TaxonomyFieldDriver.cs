@@ -48,7 +48,7 @@ namespace OrchardCore.Taxonomies.Drivers
                 PopulateTermEntries(termEntries, field, model.Taxonomy.As<TaxonomyPart>().Terms, 0);
 
                 model.TermEntries = termEntries;
-
+                model.UniqueValue = termEntries.FirstOrDefault(x => x.Selected)?.ContentItemId;
                 model.Field = field;
                 model.Part = context.ContentPart;
                 model.PartFieldDefinition = context.PartFieldDefinition;
@@ -65,6 +65,11 @@ namespace OrchardCore.Taxonomies.Drivers
 
                 field.TaxonomyContentItemId = settings.TaxonomyContentItemId;
                 field.TermContentItemIds = model.TermEntries.Where(x => x.Selected).Select(x => x.ContentItemId).ToArray();
+
+                if (settings.Unique)
+                {
+                    field.TermContentItemIds = new[] { model.UniqueValue };
+                }
             }
 
             return Edit(field, context);

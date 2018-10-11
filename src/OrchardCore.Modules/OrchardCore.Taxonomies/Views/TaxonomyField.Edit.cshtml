@@ -29,7 +29,7 @@
 
     if (entry.Level == previousLevel + 1)
     {
-        WriteLiteral("<div class=\"pl-3\" >");
+        WriteLiteral("<div class=\"pl-3\">");
     }
     
     for (var e = entry.Level; e < previousLevel; e++)
@@ -38,11 +38,36 @@
     }
 
     <div class="form-check">
-        <input asp-for="@Model.TermEntries[i].Selected" type="checkbox" /> 
+    @if (!settings.Unique)
+    {
+        @if (!settings.LeavesOnly || !Model.TermEntries[i].IsLeaf)
+        {
+            <input asp-for="@Model.TermEntries[i].Selected" type="checkbox" /> 
+        }
+        else
+        {
+            <input asp-for="@Model.TermEntries[i].Selected" type="checkbox" disabled="disabled" /> 
+        }
+
         <label class="form-check-label" asp-for="@Model.TermEntries[i].Selected">
             @term
         </label>
         <input asp-for="@Model.TermEntries[i].ContentItemId" type="hidden" /> 
+    }
+    else
+    {
+        <label class="form-check-label">
+        @if (!settings.LeavesOnly || !Model.TermEntries[i].IsLeaf)
+        {
+            <input asp-for="@Model.UniqueValue" type="radio" value="@Model.TermEntries[i].ContentItemId" /> 
+        }
+        else
+        {
+            <input asp-for="@Model.UniqueValue" type="radio" value="@Model.TermEntries[i].ContentItemId" disabled="disabled" /> 
+        }
+            @term
+        </label>
+    }
     </div>
 
 

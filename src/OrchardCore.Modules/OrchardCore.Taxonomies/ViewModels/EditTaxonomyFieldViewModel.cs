@@ -9,6 +9,7 @@ namespace OrchardCore.Taxonomies.ViewModels
 {
     public class EditTaxonomyFieldViewModel
     {
+        public string UniqueValue { get; set; }
         public List<TermEntry> TermEntries { get; set; } = new List<TermEntry>();
 
         [BindNever]

@@ -62,3 +62,20 @@ Returns the list of terms including their parents.
 ### QueryCategorizedContentItemsAsync
 
 Provides a way to query content items that are categorized with specific terms.
+
+## Taxonomy Index
+
+The `TaxonomyIndex` SQL table containes a list of all content items that are associated 
+with a Taxonomy field. Each record corresponds to a selected term for a field.
+
+| Column | Type | Description |
+| --------- | ---- |------------ |
+| TaxonomyContentItemId | `string` | The content item id of the Taxonomy |
+| ContentItemId | `string` | The content item id of the categorized content |
+| ContentType | `string` | The content type of the categorized content |
+| ContentPart | `string` | The content part containing the field |
+| ContentField | `string` | The name of the field in the content part |
+| TermContentItemId | `string` | The content item id of the categorized Term |
+
+For instance if a field has two selected terms, there will be two records with all 
+identical column values except for the `TermContentItemId`.
