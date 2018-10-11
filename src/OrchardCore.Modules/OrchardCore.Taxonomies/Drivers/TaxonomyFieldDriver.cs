@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json.Linq;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
@@ -19,10 +20,15 @@ namespace OrchardCore.Taxonomies.Drivers
     {
         private readonly IContentManager _contentManager;
 
-        public TaxonomyFieldDisplayDriver(IContentManager contentManager)
+        public TaxonomyFieldDisplayDriver(
+            IContentManager contentManager,
+            IStringLocalizer<TaxonomyFieldDisplayDriver> s)
         {
             _contentManager = contentManager;
+            S = s;
         }
+
+        public IStringLocalizer S { get; }
 
         public override IDisplayResult Display(TaxonomyField field, BuildFieldDisplayContext context)
         {
@@ -69,6 +75,13 @@ namespace OrchardCore.Taxonomies.Drivers
                 if (settings.Unique)
                 {
                     field.TermContentItemIds = new[] { model.UniqueValue };
+                }
+
+                if (settings.Required && field.TermContentItemIds.Length == 0)
+                {
+                    updater.ModelState.AddModelError(
+                        nameof(EditTaxonomyFieldViewModel.TermEntries),
+                        S["A value is required for '{0}'", context.PartFieldDefinition.Name]);
                 }
             }
 
