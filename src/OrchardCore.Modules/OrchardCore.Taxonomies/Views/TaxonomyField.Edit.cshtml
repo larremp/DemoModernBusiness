@@ -40,7 +40,7 @@
     <div class="form-check">
     @if (!settings.Unique)
     {
-        @if (!settings.LeavesOnly || !Model.TermEntries[i].IsLeaf)
+        @if (!settings.LeavesOnly || Model.TermEntries[i].IsLeaf)
         {
             <input asp-for="@Model.TermEntries[i].Selected" type="checkbox" /> 
         }
@@ -57,7 +57,7 @@
     else
     {
         <label class="form-check-label">
-        @if (!settings.LeavesOnly || !Model.TermEntries[i].IsLeaf)
+        @if (!settings.LeavesOnly || Model.TermEntries[i].IsLeaf)
         {
             <input asp-for="@Model.UniqueValue" type="radio" value="@Model.TermEntries[i].ContentItemId" /> 
         }
