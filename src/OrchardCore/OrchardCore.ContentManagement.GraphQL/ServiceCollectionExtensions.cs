@@ -1,7 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
+using OrchardCore.Apis;
 using OrchardCore.Apis.GraphQL;
 using OrchardCore.ContentManagement.GraphQL.Queries;
 using OrchardCore.ContentManagement.GraphQL.Queries.Types;
+using OrchardCore.ContentManagement.GraphQL.Queries.Filters;
 using OrchardCore.Security.Permissions;
 
 namespace OrchardCore.ContentManagement.GraphQL
@@ -20,6 +22,8 @@ namespace OrchardCore.ContentManagement.GraphQL
             services.AddTransient<DynamicPartGraphType>();
             services.AddScoped<IContentTypeBuilder, TypedContentTypeBuilder>();
             services.AddScoped<IContentTypeBuilder, DynamicContentTypeBuilder>();
+
+            services.AddGraphQLFilterType<ContentItem, OrderByFilter>();
 
             return services;
         }

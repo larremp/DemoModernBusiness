@@ -32,7 +32,8 @@ namespace OrchardCore.ContentManagement.GraphQL.Queries
                 new QueryArgument<PublicationStatusGraphType> { Name = "status", Description = "publication status of the content item", DefaultValue = PublicationStatusEnum.Published },
                 new QueryArgument<StringGraphType> { Name = "contentType", Description = "type of content item" },
                 new QueryArgument<StringGraphType> { Name = "contentItemId", Description = "content item id" },
-                new QueryArgument<StringGraphType> { Name = "contentItemVersionId", Description = "the id of the version" }
+                new QueryArgument<StringGraphType> { Name = "contentItemVersionId", Description = "the id of the version" },
+                new QueryArgument<ContentItemOrderByInput> { Name = "orderBy", Description = "order the response" }
             );
 
             Resolver = new AsyncFieldResolver<IEnumerable<ContentItem>>(Resolve);
@@ -130,6 +131,43 @@ namespace OrchardCore.ContentManagement.GraphQL.Queries
             }
 
             return contentItems.ToList();
+        }
+    }
+
+    public class ContentItemOrderByInput : InputObjectGraphType
+    {
+        public ContentItemOrderByInput()
+        {
+            Name = "ContentItemOrderBy";
+
+            Field<OrderByDirectionGraphType>("contentItemId");
+            Field<OrderByDirectionGraphType>("contentItemVersionId");
+            Field<OrderByDirectionGraphType>("contentType");
+            Field<OrderByDirectionGraphType>("displayText");
+            Field<OrderByDirectionGraphType>("published");
+            Field<OrderByDirectionGraphType>("latest");
+            Field<OrderByDirectionGraphType>("modifiedUtc");
+            Field<OrderByDirectionGraphType>("publishedUtc");
+            Field<OrderByDirectionGraphType>("createdUtc");
+            Field<OrderByDirectionGraphType>("owner");
+            Field<OrderByDirectionGraphType>("author");
+        }
+    }
+
+    public enum OrderByDirection
+    {
+        Ascending,
+        Descending
+    }
+
+    public class OrderByDirectionGraphType : EnumerationGraphType
+    {
+        public OrderByDirectionGraphType()
+        {
+            Name = "OrderByDirection";
+            Description = "the order by direction";
+            AddValue("ASC", "orders content items in ascending order", OrderByDirection.Ascending);
+            AddValue("DESC", "orders content items in descending order", OrderByDirection.Descending);
         }
     }
 }
