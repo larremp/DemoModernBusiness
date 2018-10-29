@@ -19,7 +19,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="Views\" />
-    <Folder Include="Recipes\" />
   </ItemGroup>
 
 </Project>
