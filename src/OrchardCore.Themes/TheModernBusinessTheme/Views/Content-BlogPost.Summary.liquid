@@ -1,16 +1,27 @@
-<div class="post-preview">
-    {% a display_for:Model.ContentItem %}
-        <h2 class="post-title">
-            {{ Model.ContentItem.DisplayText }}
-        </h2>
-        <h3 class="post-subtitle">
-            {{ Model.ContentItem.Content.BlogPost.Subtitle.Text }}
-        </h3>
-    {% enda %}
-    <p class="post-meta">
+<!-- Blog Post -->
+<div class="card mb-4">
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-6">
+                {% a display_for:Model.ContentItem %}
+                <img class="img-fluid rounded" src="{{ Model.ContentItem.Content.BlogPost.Image.Paths.first | asset_url }}" alt="">
+                {% enda %}
+            </div>
+            <div class="col-lg-6">
+                {% a display_for:Model.ContentItem %}
+                <h2 class="card-title">{{ Model.ContentItem.DisplayText }}</h2>
+                <p class="card-text">{{ Model.ContentItem.Content.BlogPost.Subtitle.Text }}</p>
+                <button class="btn btn-success">Read More</button>
+                {% enda %}
+            </div>
+        </div>
+
+
+    </div>
+    <div class="card-footer text-muted">
         {% assign format = "MMMM dd, yyyy" | t %}
         {% assign dateTime = "DateTime" | shape_new: utc: Model.ContentItem.CreatedUtc, format: format | shape_stringify %}
         {{ "Posted by" | t }} <a href="#">{{ Model.ContentItem.Owner }}</a> {{ "on {0}" | t: dateTime | raw }}
-    </p>
+    </div>
 </div>
-<hr />
