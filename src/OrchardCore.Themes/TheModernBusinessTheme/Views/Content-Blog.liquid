@@ -1,21 +1,10 @@
-{% zone "Header" %}
-<!-- Page Header -->
-<!-- Set your background image for this header on the line below. -->
-<header class="masthead" style="background-image: url('{{ "~/TheBlogTheme/img/home-bg.jpg" | href }}')">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="site-heading">
-                    <h1>{{ Model.ContentItem.DisplayText }}</h1>
-                    <span class="subheading">{{ Model.Content.HtmlBodyPart | shape_render }}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-{% endzone %}
+<h1 class="mt-4 mb-3">
+    {{ Model.ContentItem.DisplayText }}
+    <small>{{ Model.Content.HtmlBodyPart | shape_render }}</small>
+</h1>
 
 {% shape_remove_item Model.Content "HtmlBodyPart" %}
+
+{% shape_remove_item Model.Content "Blog-Image" %}
 
 {{ Model.Content | shape_render }}
