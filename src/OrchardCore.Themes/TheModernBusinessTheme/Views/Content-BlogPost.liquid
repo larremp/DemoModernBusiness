@@ -1,25 +1,39 @@
-{% zone "Header" %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="masthead" style="background-image: url('{{ "~/TheBlogTheme/img/post-bg.jpg" | href }}')">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <div class="post-heading">
-                        <h1>{{ Model.ContentItem.DisplayText }}</h1>
-                        <h2 class="subheading">{{ Model.ContentItem.Content.BlogPost.Subtitle.Text }}</h2>
-                        <span class="meta">
-                            {% assign format = "MMMM dd, yyyy" | t %}
-                            {% assign dateTime = "DateTime" | shape_new: utc: Model.ContentItem.CreatedUtc, format: format | shape_stringify %}
-                            {{ "Posted by" | t }} <a href="#">{{ Model.ContentItem.Owner }}</a> {{ "on {0}" | t: dateTime | raw }}
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-{% endzone %}
+<!-- Page Heading/Breadcrumbs -->
+<h1 class="mt-4 mb-3">
+    {{ Model.ContentItem.DisplayText }}
+    <small>
+        {{ "By" | t }} <a href="#">{{ Model.ContentItem.Owner }}</a>
+    </small>
+</h1>
 
-{{ Model.Content.ContentsMetadata | shape_render }}
-{{ Model.Content.MarkdownBodyPart | shape_render }}
+<div class="row">
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
+        <!-- Preview Image -->
+        <img class="img-fluid rounded" src="{{ Model.ContentItem.Content.BlogPost.Image.Paths.first | asset_url }}" alt="">
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>
+            {% assign format = "MMMM dd, yyyy" | t %}
+            {% assign dateTime = "DateTime" | shape_new: utc: Model.ContentItem.CreatedUtc, format: format | shape_stringify %}
+            {{ "Posted " | t }} {{ "on {0}" | t: dateTime | raw }}
+        </p>
+
+        <hr>
+
+        <!-- Post Content -->
+        <p>
+            {{ Model.Content.ContentsMetadata | shape_render }}
+            {{ Model.Content.MarkdownBodyPart | shape_render }}
+        </p>
+
+        <hr>
+    </div>
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-lg-4">
+
+    </div>
+</div>
